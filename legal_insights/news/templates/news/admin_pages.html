@@ -1,0 +1,46 @@
+{% extends 'news/admin_base.html' %}
+{% block content %}
+<h2 class="mb-4"><i class="fas fa-file-alt me-2"></i>Manage Pages</h2>
+<div class="row">
+    <div class="col-md-6 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <h5><i class="fas fa-clock me-2"></i>Recent Updates</h5>
+                <a href="{% url 'admin_page_edit' 'recent' %}" class="btn btn-primary btn-sm">Edit Page</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <h5><i class="fas fa-book me-2"></i>Good Guideline</h5>
+                <a href="{% url 'admin_page_edit' 'guideline' %}" class="btn btn-primary btn-sm">Edit Page</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <h5><i class="fas fa-user-tie me-2"></i>For Advocates</h5>
+                <a href="{% url 'admin_page_edit' 'advocates' %}" class="btn btn-primary btn-sm">Edit Page</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <h5><i class="fas fa-users me-2"></i>For Common People</h5>
+                <a href="{% url 'admin_page_edit' 'common' %}" class="btn btn-primary btn-sm">Edit Page</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <h5><i class="fas fa-gavel me-2"></i>For Judiciary</h5>
+                <a href="{% url 'admin_page_edit' 'judiciary' %}" class="btn btn-primary btn-sm">Edit Page</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

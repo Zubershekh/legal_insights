@@ -1,0 +1,33 @@
+{% extends 'news/base.html' %}
+{% block title %}Articles - Legal Insights{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h2 class="section-title"><i class="fas fa-newspaper me-2"></i>ARTICLES</h2>
+    {% comment %} <p class="lead">Legal analysis, opinion pieces, and commentary</p> {% endcomment %}
+    
+    <div class="row mt-4">
+        {% for article in articles %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="post-card">
+                {% if article.featured_image %}
+                <img src="{{ article.featured_image.url }}" alt="{{ article.title }}">
+                {% else %}
+                <div style="background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%); height: 200px; display: flex; align-items: center; justify-content: center; color: white;">
+                    <i class="fas fa-newspaper fa-3x"></i>
+                </div>
+                {% endif %}
+                <div class="p-3">
+                    {% if article.category %}<span class="category-badge">{{ article.category.name|upper }}</span>{% endif %}
+                    <h4 class="post-title"><a href="{% url 'article_detail' article.slug %}">{{ article.title }}</a></h4>
+                    <div class="post-meta"><i class="far fa-calendar"></i> {{ article.published_date|date:"M d, Y" }} | <i class="far fa-eye"></i> {{ article.views }} views</div>
+                    <p class="post-summary">{{ article.summary|truncatewords:20 }}</p>
+                    <a href="{% url 'article_detail' article.slug %}" class="btn btn-sm btn-primary">Read More →</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12"><div class="alert alert-info">No articles found.</div></div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

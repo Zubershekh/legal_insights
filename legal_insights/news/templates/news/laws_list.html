@@ -1,0 +1,13 @@
+{% extends 'news/base.html' %}
+{% block content %}<div class="container mt-4">
+<h2 class="section-title">ALL LAWS & ACTS</h2>
+<div class="row mt-4">
+{% for law in laws %}<div class="col-md-6 col-lg-4 mb-4"><div class="post-card">
+{% if law.featured_image %}<img src="{{ law.featured_image.url }}" alt="{{ law.title }}">{% endif %}
+<div class="p-3">{% if law.category %}<span class="category-badge" style="background:#2c5f2d;">{{ law.category.name|upper }}</span>{% endif %}
+<h4 class="post-title"><a href="{% url 'law_detail' law.slug %}">{{ law.title }}</a></h4>
+<div class="post-meta"><i class="far fa-calendar"></i> {{ law.enactment_date|date:"M d, Y" }}</div>
+<p class="post-summary">{{ law.summary|truncatewords:20 }}</p>
+<a href="{% url 'law_detail' law.slug %}" class="btn btn-sm btn-success">Read More</a>
+</div></div></div>{% empty %}<div class="col-12"><p class="text-muted">No laws found.</p></div>{% endfor %}
+</div></div>{% endblock %}

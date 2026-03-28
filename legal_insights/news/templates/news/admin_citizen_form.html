@@ -1,0 +1,112 @@
+{% extends 'news/admin_base.html' %}
+{% block title %}{% if guide %}Edit{% else %}Add{% endif %} Citizen Guide — Admin{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h4 class="mb-0">
+    <i class="fas fa-users me-2 text-primary"></i>
+    {% if guide %}Edit Citizen Guide{% else %}Add Citizen Guide{% endif %}
+  </h4>
+  <a href="{% url 'admin_citizens' %}" class="btn btn-outline-secondary btn-sm">
+    <i class="fas fa-arrow-left me-1"></i>Back to List
+  </a>
+</div>
+
+<div class="card border-0 shadow-sm">
+  <div class="card-body p-4">
+    <form method="POST">
+      {% csrf_token %}
+
+      <!-- Title -->
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Title <span class="text-danger">*</span></label>
+        <input type="text" name="title" class="form-control"
+               value="{{ guide.title|default:'' }}" required
+               placeholder="e.g. What to do if Police Refuses to File FIR">
+      </div>
+
+      <!-- Slug -->
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Slug</label>
+        <input type="text" name="slug" id="slug" class="form-control"
+               value="{{ guide.slug|default:'' }}"
+               placeholder="auto-generated from title">
+        <small class="text-muted">Leave blank to auto-generate from title.</small>
+      </div>
+
+      <!-- Category -->
+     <div class="mb-3">
+    <label class="form-label fw-semibold">Category <span class="text-danger">*</span></label>
+    <select name="category" class="form-select" required>
+        <option value="">— Select Category —</option>
+        
+         {% for cat in categories %}
+    <option value="{{ cat.id }}" {% if guide.category.id == cat.id %}selected{% endif %}>
+        {{ cat.name }}
+    </option>
+{% endfor %}
+        
+    </select>
+</div>
+
+      <!-- Content (CKEditor) -->
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Content <span class="text-danger">*</span></label>
+        <textarea name="content" id="citizen_content" class="form-control" rows="12">{{ guide.content|default:'' }}</textarea>
+      </div>
+
+      <!-- YouTube Link -->
+      <div class="mb-4">
+        <label class="form-label fw-semibold">
+          <i class="fab fa-youtube text-danger me-1"></i>YouTube Link
+          <span class="text-muted fw-normal">(optional)</span>
+        </label>
+        <input type="url" name="youtube_link" class="form-control"
+               value="{{ guide.youtube_link|default:'' }}"
+               placeholder="https://www.youtube.com/watch?v=...">
+        <small class="text-muted">Paste any YouTube URL — it will be auto-converted to embed format.</small>
+      </div>
+
+      <!-- Buttons -->
+      <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-primary px-4">
+          <i class="fas fa-save me-2"></i>{% if guide %}Update Guide{% else %}Save Guide{% endif %}
+        </button>
+        <a href="{% url 'admin_citizens' %}" class="btn btn-outline-secondary">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  CKEDITOR.replace('citizen_content', {
+    toolbar: [
+      { name: 'basicstyles', items: ['Bold','Italic','Underline','Strike','RemoveFormat'] },
+      { name: 'paragraph',   items: ['NumberedList','BulletedList','-','Blockquote'] },
+      { name: 'links',       items: ['Link','Unlink'] },
+      { name: 'styles',      items: ['Styles','Format','FontSize'] },
+      { name: 'colors',      items: ['TextColor','BGColor'] },
+      { name: 'tools',       items: ['Maximize'] },
+    ],
+    height: 400,
+    removePlugins: 'elementspath',
+  });
+
+  // Auto-generate slug from title
+  document.querySelector('[name="title"]').addEventListener('input', function () {
+    const slugField = document.getElementById('slug');
+    if (!slugField.dataset.manual) {
+      slugField.value = this.value
+        .toLowerCase()
+        .trim()
+        .replace(/[^\w\s-]/g, '')
+        .replace(/[\s_-]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+    }
+  });
+
+  document.getElementById('slug').addEventListener('input', function () {
+    this.dataset.manual = 'true';
+  });
+</script>
+{% endblock %}

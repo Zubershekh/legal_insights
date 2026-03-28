@@ -1,0 +1,111 @@
+{% extends 'news/base.html' %}
+{% block title %}Home - Legal Insights | Latest Judgments & Legal News{% endblock %}
+{% block content %}
+
+<!-- Featured Section -->
+{% if featured_judgments %}
+<div class="featured-section" tyle="display: flex; gap: 20px; flex-wrap: wrap;">
+    <div class="container">
+        <h2 class="section-title">FEATURED STORIES</h2>
+        <div class="row mt-4">
+            {% for judgment in featured_judgments %}
+            <div class="col-md-4 col-lg-3 mb-4" style="flex: 1 1 23%; display: flex;">
+                <div class="post-card" style="
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        border: 1px solid #ccc;
+        padding: 10px;
+    ">
+                    {% if judgment.featured_image %}
+                    <img src="{{ judgment.featured_image.url }}" alt="{{ judgment.title }}">
+                    {% else %}
+                    <div style="background: linear-gradient(135deg, #c41e3a 0%, #a01729 100%); height: 200px; display: flex; align-items: center; justify-content: center; color: white;">
+                        <i class="fas fa-gavel fa-3x"></i>
+                    </div>
+                    {% endif %}
+                    <div class="p-3">
+                        {% if judgment.category %}<span class="category-badge">{{ judgment.category.name|upper }}</span>{% endif %}
+                        <h3 class="post-title"><a href="{% url 'judgment_detail' judgment.slug %}">{{ judgment.title|truncatewords:10 }}</a></h3>
+                        <div class="post-meta">
+                            <i class="far fa-calendar"></i> {{ judgment.judgment_date|date:"d M, Y" }} | 
+                            <i class="fas fa-landmark"></i> {{ judgment.court_name }}
+                        </div>
+                        <p class="post-summary">{{ judgment.summary|truncatewords:15 }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Main Content -->
+<div class="container mt-4">
+    <div class="row">
+        <!-- Latest Judgments - Main Column -->
+        <div class="col-lg-8">
+            <h2 class="section-title"><i class="fas fa-gavel me-2"></i>LATEST JUDGMENTS</h2>
+            
+            {% for judgment in latest_judgments %}
+            <div class="post-card mb-3">
+                <div class="row g-">
+                    <div class="col-md-4">
+                        {% if judgment.featured_image %}
+                        
+                        <img src="{{ judgment.featured_image.url }}" alt="{{ judgment.title  }}" class="img-fluid" style="height: 100%; object-fit: cover; min-height: 180px;">
+                        {% endif %}
+                    </div>
+                    <div class="col-md-8">
+                        <div class="p-3">
+                            {% if judgment.category %}<span class="category-badge">{{ judgment.category.name|upper }}</span>{% endif %}
+                            
+                            <h4 class="post-title"><a href="{% url 'judgment_detail' judgment.slug %}">{{ judgment.title }}</a></h4>
+                            <div class="post-meta">
+                                <i class="far fa-calendar"></i> {{ judgment.published_date|date:"F d, Y" }} | 
+                                <i class="fas fa-landmark"></i> {{ judgment.court_name }} | 
+                                <i class="far fa-eye"></i> {{ judgment.views }} views
+                            </div>
+                            <p class="post-summary d-none d-md-block">{{ judgment.summary|truncatewords:25 }}</p>
+                            <a href="{% url 'judgment_detail' judgment.slug %}" class="btn btn-sm btn-outline-danger">Read More →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-muted">No judgment posts available yet.</p>
+            {% endfor %}
+            
+            <div class="text-center my-4">
+                <a href="{% url 'judgments_list' %}" class="btn btn-primary">View All Judgments →</a>
+            </div>
+
+            {% comment %} <!-- Latest Laws & Acts -->
+            <h2 class="section-title mt-5"><i class="fas fa-file-contract me-2"></i>LATEST LAWS & ACTS</h2>
+            
+            {% for law in latest_laws %}
+            <div class="post-card p-3 mb-3">
+                <span class="category-badge" style="background: #2c5f2d;">{% if law.category %}{{ law.category.name|upper }}{% else %}LAW{% endif %}</span>
+                <h4 class="post-title"><a href="{% url 'law_detail' law.slug %}">{{ law.title }}</a></h4>
+                <div class="post-meta">
+                    <i class="far fa-calendar"></i> {{ law.enactment_date|date:"F d, Y" }} | 
+                    <i class="far fa-eye"></i> {{ law.views }} views
+                </div>
+                <p class="post-summary">{{ law.summary|truncatewords:30 }}</p>
+                <a href="{% url 'law_detail' law.slug %}" class="btn btn-sm btn-outline-success">Read More →</a>
+            </div>
+            {% empty %}
+            <p class="text-muted">No law posts available yet.</p>
+            {% endfor %}
+            
+            <div class="text-center my-4">
+                <a href="{% url 'laws_list' %}" class="btn btn-success">View All Laws →</a>
+            </div> {% endcomment %}
+        </div>
+
+      
+    </div>
+</div>
+
+{% endblock %}

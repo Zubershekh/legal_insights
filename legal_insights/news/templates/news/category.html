@@ -1,0 +1,13 @@
+{% extends 'news/base.html' %}
+{% block content %}<div class="container mt-4"><h2 class="section-title">{{ category.name|upper }}</h2>
+<p class="lead">{{ category.description }}</p>
+<h4 class="mt-4 mb-3">Judgments</h4><div class="row">
+{% for j in judgments %}<div class="col-md-4 mb-3"><div class="post-card p-3">
+<h5 class="small fw-bold"><a href="{% url 'judgment_detail' j.slug %}" class="text-decoration-none text-dark">{{ j.title }}</a></h5>
+<p class="small text-muted mb-0">{{ j.judgment_date|date:"M d, Y" }}</p></div></div>{% endfor %}
+</div>
+{% comment %} <h4 class="mt-4 mb-3">Laws & Acts</h4><div class="row">
+{% for l in laws %}<div class="col-md-4 mb-3"><div class="post-card p-3">
+<h5 class="small fw-bold"><a href="{% url 'law_detail' l.slug %}" class="text-decoration-none text-dark">{{ l.title }}</a></h5>
+<p class="small text-muted mb-0">{{ l.enactment_date|date:"M d, Y" }}</p></div></div>{% endfor %} {% endcomment %}
+</div></div>{% endblock %}

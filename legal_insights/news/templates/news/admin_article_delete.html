@@ -1,0 +1,10 @@
+{% extends 'news/admin_base.html' %}
+{% block content %}
+<h2 class="text-danger mb-4">Delete Article</h2>
+<div class="alert alert-warning">Are you sure you want to delete: <strong>{{ article.title }}</strong>?</div>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger"><i class="fas fa-trash me-2"></i>Yes, Delete</button>
+    <a href="{% url 'admin_articles' %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

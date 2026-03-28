@@ -1,0 +1,24 @@
+{% extends 'news/admin_base.html' %}
+{% block content %}
+<h2 class="mb-4">Edit: {{ page_type_display }}</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label class="form-label">Page Title</label>
+        <input type="text" name="title" class="form-control" value="{{ page.title }}" required>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Content</label>
+        <textarea name="content" class="form-control" rows="15">{{ page.content }}</textarea>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Featured Image (Optional)</label>
+        <input type="file" name="featured_image" class="form-control">
+        {% if page.featured_image %}
+        <img src="{{ page.featured_image.url }}" class="img-thumbnail mt-2" style="max-width: 200px;">
+        {% endif %}
+    </div>
+    <button type="submit" class="btn btn-primary"><i class="fas fa-save me-2"></i>Save Page</button>
+    <a href="{% url 'admin_pages' %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

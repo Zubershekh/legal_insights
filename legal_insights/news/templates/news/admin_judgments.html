@@ -1,0 +1,10 @@
+{% extends 'news/admin_base.html' %}
+{% block content %}<div class="d-flex justify-content-between mb-3"><h2>Judgment Posts</h2>    
+<a href="{% url 'admin_judgment_add' %}" class="btn btn-primary"><i class="fas fa-plus me-2"></i>Add New</a></div>
+<table class="table table-striped"><thead><tr><th>Title</th><th>Court</th><th>Date</th><th>Published</th><th>Featured</th><th>Actions</th></tr></thead>
+<tbody>{% for j in judgments %}<tr><td>{{ j.title|truncatewords:8 }}</td><td>{{ j.court_name|truncatewords:3 }}</td>
+<td>{{ j.judgment_date|date:"M d, Y" }}</td><td>{% if j.is_published %}<span class="badge bg-success">Yes</span>{% else %}<span class="badge bg-secondary">No</span>{% endif %}</td>
+<td>{% if j.is_featured %}<span class="badge bg-warning">Yes</span>{% else %}No{% endif %}</td>
+<td><a href="{% url 'admin_judgment_edit' j.pk %}" class="btn btn-sm btn-warning">Edit</a> 
+<a href="{% url 'admin_judgment_delete' j.pk %}" class="btn btn-sm btn-danger">Delete</a></td></tr>{% endfor %}
+</tbody></table>{% endblock %}

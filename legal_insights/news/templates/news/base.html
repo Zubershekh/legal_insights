@@ -1,0 +1,487 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Legal Insights{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Gujarati:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+/* ================= ROOT VARIABLES ================= */
+:root {
+    --primary: #0059e9;
+    --primary-hover: #a01729;
+    --dark: #1a1a1a;
+    --gray: #666;
+    --border: #e0e0e0;
+}
+
+/* ================= GLOBAL ================= */
+body {
+    font-family: 'Noto Serif Gujarati', Arial, Helvetica, sans-serif;
+    color: #333;
+    font-size: 16px;
+    margin: 0;
+}
+
+/* Remove list dots (IMPORTANT FIX) */
+.navbar-nav {
+    list-style: none !important;
+    padding-left: 0 !important;
+    margin: 0;
+}
+
+/* ================= GOOGLE TRANSLATE ================= */
+.goog-te-banner-frame.skiptranslate { display: none !important; }
+body { top: 0px !important; }
+
+.goog-te-gadget-simple {
+    background: white !important;
+    border: 1px solid #ddd !important;
+    padding: 6px 12px !important;
+    border-radius: 4px !important;
+    font-size: 13px !important;
+}
+.goog-te-gadget-simple:hover { border-color: var(--primary) !important; }
+.goog-te-gadget-icon { display: none !important; }
+.goog-te-menu-value span { color: #333 !important; }
+
+/* ================= HEADER ================= */
+.branding-header {
+    padding: 20px 0;
+    background: #fff;
+}
+.brand-container {
+    display: flex;
+    align-items: center;
+}
+.brand-logo-img {
+    height: 70px;
+    margin-right: 12px;
+}
+.brand-main-title {
+    font-family: 'Arial Black', sans-serif;
+    font-size: 30px;
+    font-weight: 900;
+    margin: 0;
+}
+.brand-tagline {
+    font-size: 13px;
+    color: #888;
+    letter-spacing: 2px;
+}
+
+/* ================= NAVBAR ================= */
+.navbar {
+    background: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.navbar-custom {
+    border-top: 2px solid var(--primary);
+    border-bottom: 2px solid var(--primary);
+    padding: 0;
+}
+
+.navbar-brand {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--primary) !important;
+}
+
+.navbar-custom .nav-link {
+    color: #000 !important;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 14px 18px !important;
+    text-transform: uppercase;
+}
+
+.navbar-custom .nav-link:hover {
+    color: var(--primary) !important;
+}
+
+/* ================= SEARCH ================= */
+.search-box {
+    position: relative;
+    width: 250px;
+}
+
+.search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid #ddd;
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 999;
+    display: none;
+}
+
+.search-results a {
+    display: block;
+    padding: 10px;
+    color: #000;
+    text-decoration: none;
+    border-bottom: 1px solid #eee;
+}
+
+.search-results a:hover {
+    background: #f5f5f5;
+}
+
+/* ================= CONTENT ================= */
+.featured-section {
+    background: #f9f9f9;
+    padding: 30px 0;
+    border-top: 3px solid var(--primary);
+}
+
+.section-title {
+    font-size: 22px;
+    font-weight: 700;
+    border-bottom: 3px solid var(--primary);
+    display: inline-block;
+}
+
+/* ================= CARDS ================= */
+.post-card {
+    background: white;
+    border: 1px solid var(--border);
+    margin-bottom: 20px;
+    transition: 0.3s;
+}
+
+.post-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+}
+
+.post-card img {
+    width: 100%;
+    object-fit: cover;
+}
+
+.post-title {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.post-title a {
+    color: #333;
+    text-decoration: none;
+}
+
+.post-title a:hover {
+    color: var(--primary);
+}
+
+/* ================= FOOTER ================= */
+.footer {
+    background: var(--dark);
+    color: white;
+    padding: 30px 0;
+}
+
+.footer a {
+    color: rgba(255,255,255,0.7);
+}
+.footer a:hover {
+    color: white;
+}
+
+/* ================= BUTTON ================= */
+.btn-primary {
+    background: var(--primary);
+    border-color: var(--primary);
+}
+.btn-primary:hover {
+    background: var(--primary-hover);
+}
+
+        .post-title { font-size: 18px; font-weight: 700; line-height: 1.4; margin: 12px 0; }
+        .post-title a { color: #333; text-decoration: none; }
+        .post-title a:hover { color: var(--primary); }
+        .post-meta { font-size: 13px; color: var(--gray); font-family: Arial, sans-serif; margin-bottom: 10px; }
+        .post-summary { font-size: 15px; color: #555; line-height: 1.6; }
+        .category-badge { background: var(--primary); color: white; padding: 4px 10px; font-size: 11px; font-weight: 600; text-transform: uppercase; font-family: Arial, sans-serif; display: inline-block; margin-right: 5px; }
+         .top-bar { background: var(--dark); color: white; padding: 8px 0; font-size: 13px; } 
+/* ================= MOBILE ================= */
+@media (max-width: 991px) {
+
+    .navbar-brand { font-size: 20px; }
+
+    .navbar-collapse {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 80%;
+        height: 100%;
+        background: white;
+        z-index: 9999;
+        transition: 0.3s;
+        padding: 20px;
+    }
+
+    .navbar-collapse.show {
+        left: 0;
+    }
+
+    .navbar-nav {
+        text-align: left;
+    }
+
+    .navbar-nav .nav-item {
+        border-bottom: 1px solid #eee;
+    }
+
+    .navbar-custom .nav-link {
+        padding: 12px !important;
+        font-size: 16px;
+    }
+
+    .search-box {
+        width: 100%;
+        margin-top: 10px;
+    }
+}
+</style>
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+   <!-- Top Bar -->
+    <div class="top-bar d-none d-md-block">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <div><i class="far fa-calendar me-2"></i>{% now "l, F d, Y" %}</div>
+                <div>
+                    {% if user.is_authenticated and user.is_staff %}
+                    <a href="{% url 'admin_dashboard' %}" class="text-white text-decoration-none"><i class="fas fa-user-shield me-1"></i>Admin Panel</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% comment %} navbar {% endcomment %}
+<header class="branding-header">
+    <div class="container d-flex justify-content-between align-items-center">
+
+        <!-- LOGO -->
+        <a class="navbar-brand" href="{% url 'home' %}">
+            <i class="fas fa-balance-scale me-2"></i>LEGAL INSIGHTS
+        </a>
+
+        <!-- RIGHT SIDE -->
+        <div class="d-flex align-items-center">
+
+            <!-- TRANSLATE -->
+            <div id="google_translate_element" class="me-3"></div>
+
+            <!-- SEARCH -->
+            <div class="search-box position-relative">
+                <input 
+                    type="text" 
+                    id="liveSearchInput"
+                    class="form-control" 
+                    placeholder="Search..."
+                >
+                <div id="searchResults" class="search-results"></div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<nav class="navbar navbar-expand-lg navbar-light navbar-custom sticky-top bg-white">
+    <div class="container">
+
+        <!-- TOGGLER -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- COLLAPSE -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+
+            <!-- MENU -->
+            <ul class="navbar-nav me-auto">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'home' %}">Home</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'judgments_list' %}">Judgment</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Guideline Authority</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'advocates_detail' %}">For Advocate</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'citizens_detail' %}">For Citizens</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Judicial Exams</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'articles_list' %}">Article</a>
+                </li>
+
+                <!-- CATEGORIES -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                        Categories
+                    </a>
+                    <ul class="dropdown-menu">
+                        {% for category in categories %}
+                        <li>
+                            <a class="dropdown-item" href="{% url 'category_view' category.slug %}">
+                                {{ category.name }}
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+
+                <!-- MORE -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                        More
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{% url 'about' %}">About</a></li>
+                        <li><a class="dropdown-item" href="{% url 'contact' %}">Contact</a></li>
+                        <li><a class="dropdown-item" href="{% url 'disclaimer' %}">Disclaimer</a></li>
+                    </ul>
+                </li> 
+            </ul>
+        </div>
+    </div>
+</nav>
+
+    <!-- Messages -->
+    {% if messages %}
+    <div class="container mt-3">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Content -->
+    {% block content %}{% endblock %}
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <h5 class="mb-3"><i class="fas fa-balance-scale me-2"></i>LEGAL INSIGHTS</h5>
+                    <p class="small">Your trusted source for legal news, judgments, and analysis.</p>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h6 class="mb-3">QUICK LINKS</h6>
+                    <ul class="list-unstyled small">
+                        <li class="mb-2"><a href="{% url 'judgments_list' %}">Judgments</a></li>
+                        <li class="mb-2"><a href="{% url 'laws_list' %}">Laws & Acts</a></li>
+                        <li class="mb-2"><a href="{% url 'about' %}">About Us</a></li>
+                        <li class="mb-2"><a href="{% url 'disclaimer' %}">Disclaimer</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h6 class="mb-3">CONTACT</h6>
+                    <p class="small">
+                        Email: contact@legalinsights.com<br>
+                        Phone: +91 XXXX XXXXXX
+                    </p>
+                </div>
+            </div>
+            <hr class="border-secondary">
+            <div class="text-center small mt-3">
+                <p class="mb-0">&copy; {% now "Y" %} Legal Insights. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Google Translate Script -->
+    <script type="text/javascript">
+    function googleTranslateElementInit() {
+        // Desktop translator
+        new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'hi,gu,mr,ta,te,kn,ml,bn,pa,ur,en',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+        }, 'google_translate_element');
+        
+        // Mobile translator (same config)
+        new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'hi,gu,mr,ta,te,kn,ml,bn,pa,ur,en',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+        }, 'google_translate_element_mobile');
+    }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    
+    {% block extra_js %}{% endblock %}
+</body>
+
+
+<script>
+const input = document.getElementById("liveSearchInput");
+const resultsBox = document.getElementById("searchResults");
+
+input.addEventListener("keyup", function() {
+    let query = this.value;
+
+    if (query.length < 2) {
+        resultsBox.style.display = "none";
+        return;
+    }
+
+    fetch(`/live-search/?q=${query}`)
+        .then(res => res.json())
+        .then(data => {
+            resultsBox.innerHTML = "";
+
+            if (data.length === 0) {
+                resultsBox.innerHTML = "<p style='padding:10px'>No results</p>";
+            } else {
+                data.forEach(item => {
+                    resultsBox.innerHTML += `
+                        <a href="${item.url}">${item.title}</a>
+                    `;
+                });
+            }
+
+            resultsBox.style.display = "block";
+        });
+});
+
+// Hide when clicked outside
+document.addEventListener("click", function(e) {
+    if (!e.target.closest(".search-box")) {
+        resultsBox.style.display = "none";
+    }
+});
+</script>
+
+</html>

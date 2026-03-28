@@ -1,0 +1,12 @@
+{% extends 'news/admin_base.html' %}
+{% block content %}<h2 class="mb-4">Dashboard</h2>
+<div class="row"><div class="col-md-4 mb-3"><div class="card text-center"><div class="card-body">
+<h1 class="text-primary">{{ judgments_count }}</h1><p>Total Judgments</p>
+<a href="{% url 'admin_judgments' %}" class="btn btn-sm btn-primary">Manage</a></div></div></div>
+<div class="col-md-4 mb-3"><div class="card text-center"><div class="card-body">
+<h1 class="text-success">{{ laws_count }}</h1><p>Total Laws</p>
+<a href="{% url 'admin_laws' %}" class="btn btn-sm btn-success">Manage</a></div></div></div>
+<div class="col-md-4 mb-3"><div class="card text-center"><div class="card-body">
+<h1 class="text-warning">{{ categories_count }}</h1><p>Total Categories</p>
+<a href="{% url 'admin_categories' %}" class="btn btn-sm btn-warning">Manage</a></div></div></div>
+</div>{% endblock %}

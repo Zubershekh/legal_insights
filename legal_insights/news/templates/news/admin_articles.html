@@ -1,0 +1,28 @@
+{% extends 'news/admin_base.html' %}
+{% block content %}
+<div class="d-flex justify-content-between mb-3">
+    <h2><i class="fas fa-newspaper me-2"></i>Article Posts</h2>
+    <a href="{% url 'admin_article_add' %}" class="btn btn-primary"><i class="fas fa-plus me-2"></i>Add New Article</a>
+</div>
+<table class="table table-striped">
+    <thead>
+        <tr><th>Title</th><th>Category</th><th>Published</th><th>Views</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+        {% for article in articles %}
+        <tr>
+            <td>{{ article.title|truncatewords:8 }}</td>
+            <td>{{ article.category.name|default:"None" }}</td>
+            <td>{% if article.is_published %}<span class="badge bg-success">Yes</span>{% else %}<span class="badge bg-secondary">No</span>{% endif %}</td>
+            <td>{{ article.views }}</td>
+            <td>
+                <a href="{% url 'admin_article_edit' article.pk %}" class="btn btn-sm btn-warning">Edit</a>
+                <a href="{% url 'admin_article_delete' article.pk %}" class="btn btn-sm btn-danger">Delete</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5" class="text-center">No articles yet. Click "Add New Article"!</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,153 @@
+{% extends 'news/base.html' %}
+{% load static %}
+{% block title %}For Citizens - Legal Insights{% endblock %}
+
+{% block extra_css %}
+<style>
+    body { background: #f4f4f4; }
+
+    .page-header {
+        background: #fff;
+        border-bottom: 3px solid #0059e9;
+        padding: 18px 0 0 0;
+        margin-bottom: 30px;
+    }
+
+    .page-header h1 {
+        font-size: 26px;
+        font-weight: 700;
+        color: #000;
+        margin-bottom: 0;
+    }
+
+    .page-header .tab-bar {
+        display: flex;
+        gap: 0;
+        margin-top: 14px;
+    }
+
+    .page-header .tab-bar span {
+        background: #0059e9;
+        color: #fff;
+        padding: 8px 28px;
+        font-size: 14px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+    }
+
+    .guide-list-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 15px 40px;
+    }
+
+    .guide-item {
+        background: #fff;
+        border: 1px solid #e0e0e0;
+        margin-bottom: 14px;
+        padding: 18px 22px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        transition: box-shadow 0.2s, transform 0.2s;
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .guide-item:hover {
+        box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+        transform: translateY(-2px);
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .guide-item-left { flex: 1; }
+
+    .guide-item-category {
+        display: inline-block;
+        background: #000;
+        color: #fff;
+        padding: 3px 10px;
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 8px;
+    }
+
+    .guide-item-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: #000;
+        line-height: 1.4;
+        margin-bottom: 6px;
+    }
+
+    .guide-item:hover .guide-item-title { color: #0059e9; }
+
+    .guide-item-date {
+        font-size: 13px;
+        color: #888;
+        font-family: Arial, sans-serif;
+    }
+
+    .guide-item-arrow {
+        background: #0059e9;
+        color: #fff;
+        padding: 10px 22px;
+        font-size: 13px;
+        font-weight: 600;
+        border-radius: 3px;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+
+    .guide-item:hover .guide-item-arrow { background: #c41e3a; }
+
+    .empty-state {
+        background: #fff;
+        text-align: center;
+        padding: 60px 20px;
+        color: #888;
+        border: 1px solid #e0e0e0;
+    }
+
+    .empty-state i { font-size: 48px; margin-bottom: 16px; color: #ccc; }
+    .empty-state p { font-size: 16px; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        {% comment %} <h1><i class="fas fa-users me-2" style="color:#0059e9;"></i>For Citizens</h1> {% endcomment %}
+        <div class="tab-bar">
+            <span>Citizen Guides</span>
+        </div>
+    </div>
+</div>
+
+<div class="guide-list-container">
+    {% if guides %}
+        {% for guide in guides %}
+        <a href="{% url 'citizen_detail' guide.slug %}" class="guide-item">
+            <div class="guide-item-left">
+                <span class="guide-item-category">{{ guide.get_category_display }}</span>
+                <div class="guide-item-title">{{ guide.title }}</div>
+                <div class="guide-item-date">
+                    <i class="far fa-calendar me-1"></i>{{ guide.created_at|date:"F d, Y" }}
+                </div>
+            </div>
+            <span class="guide-item-arrow">Read More <i class="fas fa-chevron-right ms-1"></i></span>
+        </a>
+        {% endfor %}
+    {% else %}
+        <div class="empty-state">
+            <div><i class="fas fa-book-open"></i></div>
+            <p>No citizen guides published yet.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

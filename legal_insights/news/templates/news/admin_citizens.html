@@ -1,0 +1,84 @@
+{% extends 'news/admin_base.html' %}
+{% block title %}Citizen Guides — Admin{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <h4 class="mb-0"><i class="fas fa-users me-2 text-primary"></i>Citizen Guides</h4>
+    <small class="text-muted">{{ guides.count }} guide{{ guides.count|pluralize }} total</small>
+  </div>
+  <a href="{% url 'admin_citizen_add' %}" class="btn btn-primary">
+    <i class="fas fa-plus me-2"></i>Add New Guide
+  </a>
+</div>
+
+<!-- Stats Card -->
+<div class="row mb-4">
+  <div class="col-md-3">
+    <div class="card border-0 shadow-sm text-center p-3">
+      <div style="font-size:2rem; font-weight:700; color:#0059e9;">{{ guides.count }}</div>
+      <div class="text-muted" style="font-size:13px;">Total Guides</div>
+    </div>
+  </div>
+</div>
+
+<!-- Table -->
+<div class="card border-0 shadow-sm">
+  <div class="card-body p-0">
+    {% if guides %}
+    <table class="table table-hover mb-0">
+      <thead class="table-dark">
+        <tr>
+          <th style="width:40px;">#</th>
+          <th>Title</th>
+          <th>Category</th>
+          <th>YouTube</th>
+          <th>Created</th>
+          <th style="width:140px;">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for guide in guides %}
+        <tr>
+          <td class="text-muted">{{ forloop.counter }}</td>
+          <td>
+            <a href="{% url 'citizen_detail' guide.slug %}" target="_blank"
+               class="text-decoration-none fw-600 text-dark">
+              {{ guide.title|truncatewords:10 }}
+            </a>
+          </td>
+          <td>
+            <span class="badge" style="background:#0059e9;">{{ guide.get_category_display }}</span>
+          </td>
+          <td>
+            {% if guide.youtube_link %}
+              <span class="badge bg-danger"><i class="fab fa-youtube me-1"></i>Yes</span>
+            {% else %}
+              <span class="badge bg-secondary">No</span>
+            {% endif %}
+          </td>
+          <td class="text-muted" style="font-size:13px;">{{ guide.created_at|date:"d M Y" }}</td>
+          <td>
+            <a href="{% url 'admin_citizen_edit' guide.slug %}"
+               class="btn btn-sm btn-outline-primary me-1">
+              <i class="fas fa-edit"></i>
+            </a>
+            <a href="{% url 'admin_citizen_delete' guide.slug %}"
+               class="btn btn-sm btn-outline-danger"
+               onclick="return confirm('Delete this guide?')">
+              <i class="fas fa-trash"></i>
+            </a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <div class="text-center py-5 text-muted">
+      <i class="fas fa-users fa-3x mb-3" style="color:#ddd;"></i>
+      <p>No citizen guides yet. <a href="{% url 'admin_citizen_add' %}">Add the first one.</a></p>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

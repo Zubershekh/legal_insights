@@ -1,0 +1,19 @@
+{% extends 'news/base.html' %}
+{% block title %}{{ page.title }} - Legal Insights{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    {% if page %}
+    <h2 class="section-title">{{ page.title }}</h2>
+    {% if page.featured_image %}
+    <img src="{{ page.featured_image.url }}" class="img-fluid mb-4" alt="{{ page.title }}">
+    {% endif %}
+    <div style="font-size: 17px; line-height: 1.8; white-space: pre-wrap;">{{ page.content }}</div>
+    <p class="text-muted mt-4"><small>Last updated: {{ page.updated_at|date:"F d, Y" }}</small></p>
+    {% else %}
+    <div class="alert alert-warning">
+        <h4>Page Not Available</h4>
+        <p>This page hasn't been created yet. Please check back later.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

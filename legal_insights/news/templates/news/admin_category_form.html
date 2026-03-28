@@ -1,0 +1,6 @@
+{% extends 'news/admin_base.html' %}
+{% block content %}<h2 class="mb-4">{{ action }} Category</h2>
+<form method="post">{% csrf_token %}{{ form.as_p }}
+<button type="submit" class="btn btn-warning"><i class="fas fa-save me-2"></i>Save</button> 
+<a href="{% url 'admin_categories' %}" class="btn btn-secondary">Cancel</a>
+</form>{% endblock %}
