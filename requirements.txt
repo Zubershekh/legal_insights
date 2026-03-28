@@ -63,7 +63,6 @@ python-decouple==3.8
 python-dotenv==1.1.1
 pyttsx3==2.99
 pytz==2025.2
-pywin32==311
 requests==2.31.0
 scikit-learn==1.7.2
 scipy==1.16.3
